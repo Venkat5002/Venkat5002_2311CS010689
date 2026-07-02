@@ -1,24 +1,23 @@
-import { Card, CardContent, Typography, Chip } from "@mui/material";
+import { Card, CardContent, Typography, Chip, Box } from "@mui/material";
 
-function NotificationCard({ notification }) {
+function NotificationCard({ notification = {} }) {
+  const message = notification.Message ?? notification.message ?? "No message";
+  const type = notification.Type ?? notification.type ?? "General";
+  const timestamp = notification.Timestamp ?? notification.timestamp ?? "Unknown time";
+
   return (
-    <Card sx={{ mb: 2 }}>
+    <Card sx={{ borderRadius: 3, boxShadow: "0 10px 30px rgba(79, 70, 229, 0.12)", border: "1px solid #c7d2fe", background: "linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%)" }}>
       <CardContent>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 2 }}>
+          <Typography variant="h6" sx={{ color: "#312e81", fontWeight: 700 }}>
+            {message}
+          </Typography>
+          <Chip label={type} size="small" sx={{ fontWeight: 700, backgroundColor: "#4f46e5", color: "white" }} />
+        </Box>
 
-        <Typography variant="h6">
-          {notification.Message}
+        <Typography color="text.secondary" sx={{ mt: 1.5 }}>
+          {timestamp}
         </Typography>
-
-        <Chip
-          label={notification.Type}
-          color="primary"
-          sx={{ my: 1 }}
-        />
-
-        <Typography color="text.secondary">
-          {notification.Timestamp}
-        </Typography>
-
       </CardContent>
     </Card>
   );

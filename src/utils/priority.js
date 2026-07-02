@@ -4,12 +4,20 @@ const weight = {
   Event: 1,
 };
 
-export const prioritySort = (notifications) => {
+const getWeight = (type) => weight[type] ?? 0;
+
+export const prioritySort = (notifications = []) => {
   return [...notifications].sort((a, b) => {
-    if (weight[a.Type] !== weight[b.Type]) {
-      return weight[b.Type] - weight[a.Type];
+    const leftWeight = getWeight(a?.Type ?? a?.type);
+    const rightWeight = getWeight(b?.Type ?? b?.type);
+
+    if (leftWeight !== rightWeight) {
+      return rightWeight - leftWeight;
     }
 
-    return new Date(b.Timestamp) - new Date(a.Timestamp);
+    const leftTime = Date.parse(a?.Timestamp ?? a?.timestamp ?? 0);
+    const rightTime = Date.parse(b?.Timestamp ?? b?.timestamp ?? 0);
+
+    return rightTime - leftTime;
   });
 };
